@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.util.Stack;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,9 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class DemoController {
+	String a_= null, b_ = null, op = null;
+	int a = 0, b = 0, result = 0;
 	
 	// localhost:8090/demo/index
 	@GetMapping("/index")
@@ -67,7 +71,7 @@ public class DemoController {
 	}
 	
 	@PostMapping("/calc")
-	public String calcproc(int a, int b, String op, Model model) {
+	public String calcProc(int a, int b, String op, Model model) {
 		int result = 0;
 		String oper = "";
 		switch (op) {
@@ -102,4 +106,55 @@ public class DemoController {
 		model.addAttribute("board", board);
 		return "07.writeResult";
 	}
+	
+	@GetMapping("/calculator")
+	public String calculator() {
+		return "08.calculator";
+	}
+	
+	
+	@PostMapping("/calculator")
+	public String calculatorProc(HttpServletRequest req, Model model) {
+		String num_ = req.getParameter("num");
+		String op_ = req.getParameter("op");
+		String eval = req.getParameter("eval");
+		if (eval == null)
+			eval = "";
+		
+		if (num_ != null) {
+			eval += num_;
+			if (a_ == null) {
+				a_ = num_;
+				a = Integer.parseInt(a_);
+			} else if (b_ == null) {
+				b_ = num_;
+				b = Integer.parseInt(b_);
+			}
+			model.addAttribute("eval", eval);
+		} else if (op_ != null) {
+			if (op_.equals("C")) {
+				eval = "";
+				a_ = null; b_ = null; op = null;
+				a = 0; b = 0;
+				model.addAttribute("eval", eval);
+			} else if (op_.equals("=")) {
+				switch(op) {
+				case "+": result = a + b; break;
+				case "-": result = a - b; break;
+				case "*": result = a * b; break;
+				case "/": result = (int) (a / b); break;
+				default: result = 0;
+				}
+				a_ = null; b_ = null; op = null;
+				a = 0; b = 0;
+				model.addAttribute("eval", result);
+			} else {
+				eval += " " + op_ + " ";
+				op = op_;
+				model.addAttribute("eval", eval);
+			}
+		}
+		return "08.calculator";
+	}
+	
 }
