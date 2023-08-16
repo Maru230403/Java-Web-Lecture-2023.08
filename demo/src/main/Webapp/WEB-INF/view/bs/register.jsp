@@ -17,7 +17,7 @@
 <body>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <div class="container-fluid">
-            <img src="/demo/img/ck-logo.png" height="60">
+            <img src="/demo/img/ck_logo.png" height="60">
             <div class="p-2 bg-dark justify-content-center">
                 <img src="https://picsum.photos/1500/180" width="100%">
             </div>
