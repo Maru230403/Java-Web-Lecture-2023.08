@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -140,6 +142,7 @@ public class BootstrapController {
 			}
 		}
 	}
+	
 	
 	// uid가 DB에 존재하면 false, 없으면 true
 	boolean checkUid(String uid) {

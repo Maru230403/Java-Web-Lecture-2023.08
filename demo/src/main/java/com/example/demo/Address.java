@@ -12,7 +12,7 @@ public class Address {
 	
 	@Override
 	public String toString() {
-		return "Address [zipCode=" + zipCode + ", city=" + city + ", country=" + country + "]";
+		return "(  " + zipCode + "  )   "+ city +"    "+ country;
 	}
 	
 	public int getZipCode() {

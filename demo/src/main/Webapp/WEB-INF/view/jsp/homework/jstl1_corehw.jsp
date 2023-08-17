@@ -6,52 +6,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>JSTL</title>
-	<style>td { padding: 3px; }</style>
+	<style>td, th { padding: 3px; }</style>
 </head>
 <body style="margin: 40px;">
-	<h1>JSTL(JSP Standard Tag Library) Core</h1>
+	<div class = "text-center">
+	<h1>Member List</h1>
 	<hr>
-	<table border="1">
-		<tr><th>표현식</th><th>결과</th></tr>
-		<tr><td>\${memberArray[0].id}</td><td>${memberArray[0].id}</td></tr>
-		<tr><td>\${memberArray[0].name}</td><td>${memberArray[0].name}</td></tr>
-		<tr><td>\${memberArray[0].addr}</td><td>${memberArray[0].addr}</td></tr>
-		<c:set var="mem0" value="${memberArray[0]}"></c:set>
-		<tr><td></td><td></td></tr>
-		<tr><td>\${mem0.id}</td><td>${mem0.id}</td></tr>
-		<tr><td>\${mem0.name}</td><td>${mem0.name}</td></tr>
-		<tr><td>\${mem0.addr.city}</td><td>${mem0.addr.city}</td></tr>
-	</table>
- 	<br>
-   <table border="1">
-      <tr><th>아이디</th><th>이름</th><th>도시</th><th>국가</th></tr>
-	      <tr>
-	         <td>${memberList[0].id}</td>
-	         <td>${memberList[0].name}</td>
-	         <td>${memberList[0].addr.city}</td>
-	         <td>${memberList[0].addr.country}</td>
-	      </tr>
-	         <tr>
-	         <td>${memberList[1].id}</td>
-	         <td>${memberList[1].name}</td>
-	         <td>${memberList[1].addr.city}</td>
-	         <td>${memberList[1].addr.country}</td>
-	      </tr>
-	
-		<br>
 		<table border="1">
-			<tr><th>아이디</th><th>이름</th><th>도시</th><th>국가</th></tr>
-		<c:forEach var="member" items="${memberArray}">
-			<tr>
-				<td>${member.id}</td>
-				<td>${member.name}</td>
-				<td>${member.addr.city}</td>
-				<td>${member.addr.country}</td>
-			</tr>
-		</c:forEach>
-		</table>
-		<br>
-		<table border="1">
+		<table class="table table-bordered mt-2">
 			<tr><th>Index</th><th>Count</th><th>아이디</th><th>이름</th><th>주소</th></tr>
 		<c:forEach var="member" items="${memberList}" varStatus="loop">
 			<tr>
@@ -86,11 +48,12 @@
 					<span style="background-color: skyblue;">${member.addr}</span>
 				</c:if>
 				<c:if test="${member.addr.country ne '미국' and member.addr.country ne '한국'}">
-					${member.add}
+					${member.addr}
 				</c:if>
 				</td>
 			</tr>
 		</c:forEach>
+			</div>
 		</table>
 </body>
 </html>
