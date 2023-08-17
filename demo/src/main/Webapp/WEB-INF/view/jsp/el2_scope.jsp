@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>EL 표현</title>
+	<meta charset="UTF-8">
+	<title>EL 표현언어</title>
 	<style>td { padding: 3px; }</style>
 </head>
 <body style="margin: 40px;">
