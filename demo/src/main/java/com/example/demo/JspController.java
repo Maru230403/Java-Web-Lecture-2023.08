@@ -125,8 +125,8 @@ public class JspController {
 		model.addAttribute("str3", "중심");
 		return "jsp/jstl3_fn";
 	}
-	@GetMapping("/homework")
-	public String homework(Model model) {
+	@GetMapping("/homework1")
+	public String homework1(Model model) {
 		Address addr1 = new Address(12345, "LA", "미국");
 		Address addr2 = new Address(67890, "뉴욕", "미국");
 		Member m1 = new Member(101, "신영화",  new Address(23456, "영등포", "한국"));
@@ -147,5 +147,23 @@ public class JspController {
 		list.add(m1); list.add(m2); list.add(m3); list.add(m4); list.add(m5); list.add(m6); list.add(m7); 
 		model.addAttribute("memberList", list);
 		return "jsp/samplehw";
+	}
+	
+	@GetMapping("/homework")
+	public String homework(Model model) {
+		Address addr1 = new Address(12345, "LA", "미국");
+		Address addr2 = new Address(67890, "뉴욕", "미국");
+		Member m1 = new Member(101, "신영화",  new Address(23456, "영등포", "한국"));
+		Member m2 = new Member(102, "조시루",  new Address(23456, "영등포", "한국"));
+		Member m3 = new Member(103, "조세훈",  new Address(23456, "영등포", "한국"));
+		Member m4 = new Member(104, "미세스박",  new Address(23456, "시카고", "미국"));
+		Member m5 = new Member(105, "주세희",  new Address(23456, "인천", "한국"));
+		Member m6 = new Member(106, "남지영",  new Address(23456, "고양", "한국"));
+		Member m7 = new Member(107, "조마루",  new Address(23456, "영등포", "한국"));
+		
+		List<Member> list = new ArrayList<>();
+		list.add(m1); list.add(m2); list.add(m3); list.add(m4); list.add(m5); list.add(m6); list.add(m7); 
+		model.addAttribute("memberList", list);
+		return "jsp/homework";
 	}
 }

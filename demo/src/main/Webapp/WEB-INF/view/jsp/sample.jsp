@@ -22,7 +22,6 @@
 	        <div class="col-9">
 		        <h3><strong>샘플</strong></h3>
 		        <hr>
-				<%@ include file="./homework/jstl1_corehw.jspf" %>	       
 	        </div>
 			 </div>
 	    </div>
