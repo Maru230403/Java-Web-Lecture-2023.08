@@ -8,6 +8,10 @@ DROP TABLE Customer CASCADE CONSTRAINTS;
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0130a837b37103deec68e0d40397a87ddb550e6d
 =======
 
 >>>>>>> 0130a837b37103deec68e0d40397a87ddb550e6d
@@ -37,15 +41,21 @@ CREATE TABLE Orders
 (
 	orderid number(2) NOT NULL,
 <<<<<<< HEAD
+<<<<<<< HEAD
 	saleprice number(8) DEFAULT 0 NOT NULL,
 	orderdate date DEFAULT SYSDATE,
 	custid number(2) NOT NULL,	
 	bookid number(2) NOT NULL,
 =======
+=======
+>>>>>>> 0130a837b37103deec68e0d40397a87ddb550e6d
 	saleprice number(8) NOT NULL,
 	orderdate date DEFAULT SYSDATE,
 	bookid number(2) NOT NULL,
 	custid number(2) NOT NULL,
+<<<<<<< HEAD
+>>>>>>> 0130a837b37103deec68e0d40397a87ddb550e6d
+=======
 >>>>>>> 0130a837b37103deec68e0d40397a87ddb550e6d
 	PRIMARY KEY (orderid)
 );
