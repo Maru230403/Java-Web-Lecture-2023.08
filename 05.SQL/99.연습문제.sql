@@ -95,3 +95,51 @@ select orderid from orders where orderdate not between '2014-07-04' and '2014-07
 select name,address from customer where name like '김%';
 -- 성이 '김'씨이고 이름이 '아'로 끝나는 고객의 이름과 주소
 select name,address from customer where name like '김%아';
+-- 박지성이 구매한 도서의 출판사와 같은 출판사에서 도서를 구매한 고객의 이름
+select b.publisher from orders o
+    join book b on o.bookid=b.bookid
+    join customer c on o.custid=c.custid
+    where c.name like '박지성';
+select distinct ec.name from orders eo
+    join book eb on eo.bookid=eb.bookid
+    join customer ec on eo.custid=ec.custid
+    where eb.publisher in (select b.publisher from orders o
+        join book b on o.bookid=b.bookid
+        join customer c on o.custid=c.custid
+        where c.name like '박지성');
+-- 두개 이상의 서로 다른 출판사에서 도서를 구매한 고객의 이름
+select c.name, count(DISTINCT b.publisher) from orders o
+    join book b on o.bookid = b.bookid
+    join customer c on o.custid = c.custid
+    group by c.name having count(DISTINCT b.publisher)>=2;
+-- (생략) 전체 고객의 30%이상이 구매한 도서
+select b.bookname, count(o.bookid) from orders o
+    join book b on o.bookid = b.bookid
+    group by b.bookname having count(o.bookid) >= 2;
+select * from orders;
+-- 새로운 도서('스포츠의 세계','대한미디어',10000원)이 마당서점에 입고되었다.(삽입이 안되는 경우 필요한데이터가 더 있는지 찾아보자)
+insert into book  values (13, '스포츠의 세계', '대한미디어', 10000);
+-- '삼성당'에서 출판한 도서를 삭제해야한다
+delete from book where publisher = '삼성당';
+-- '이상미디어'에서 출판한 도서를 삭제해야한다. 삭제가 안될 경우 원인을 생각해보자
+select * from orders
+    where bookid in (select bookid from book where publisher like '이상미디어');     -- foregin key exception(order bookid에 데이터가 있어서 bookid를 지우지 못함 
+    
+-- 출판사'대한미디어'가 '대한출판사'로 이름을 바꾸었다
+update book set publisher = '대한출판사' where publisher ='대한미디어';
+select * from book;
+--(5) 박지성이 구매한 도서의 출판사 수
+select count(distinct publisher) from orders where custid = 1;
+--(6) 박지성이 구매한 도서의 이름, 가격, 정가와 판매가격의 차이
+select bookname, price,(price - saleprice) from orders where custid = 1;
+--(7) 박지성이 구매하지 않은 도서의 이름
+select bookname from orders where not custid = 1; 
+--(8) 주문하지 않은 고객의 이름(부속질의 사용)
+--(9) 주문 금액의 총액과 주문의 평균 금액
+select sum(saleprice),avg(saleprice) from orders;
+--(10) 고객의 이름과 고객별 구매액
+select c.name,sum(saleprice) from customer,oders where c.custid = o.custid
+    group by custid;
+--(11) 고객의 이름과 고객이 구매한 도서 목록
+--(12) 도서의 가격(Book 테이블)과 판매가격(Orders 테이블)의 차이가 가장 많은 주문
+--(13) 도서의 판매액 평균보다 자신의 구매액 평균이 더 높은 고객의 이름
