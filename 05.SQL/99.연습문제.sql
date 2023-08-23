@@ -129,17 +129,51 @@ select * from orders
 update book set publisher = '대한출판사' where publisher ='대한미디어';
 select * from book;
 --(5) 박지성이 구매한 도서의 출판사 수
-select count(distinct publisher) from orders where custid = 1;
+select count(distinct publisher) from orders o
+    join book b on o.bookid = b.bookid
+    join customer c on o.custid = c.custid
+    where c.name like '박지성';
 --(6) 박지성이 구매한 도서의 이름, 가격, 정가와 판매가격의 차이
-select bookname, price,(price - saleprice) from orders where custid = 1;
+select b.bookname, b.price,o.saleprice,o.saleprice-b.price from orders o 
+    join book b on o.bookid = b.bookid
+    join customer c on o.custid = c.custid
+    where c.name like '박지성';
 --(7) 박지성이 구매하지 않은 도서의 이름
-select bookname from orders where not custid = 1; 
+select bookname from book minus
+    select b.bookname from orders o
+        join book b on o.bookid = b.bookid
+        join customer c on o.custid=c.custid
+        where c.name like '박지성'; 
 --(8) 주문하지 않은 고객의 이름(부속질의 사용)
+select name from customer
+    where custid not in (select distinct custid from orders);
 --(9) 주문 금액의 총액과 주문의 평균 금액
-select sum(saleprice),avg(saleprice) from orders;
+select sum(saleprice),round(avg(saleprice),0) from orders; --round: 반올림 소수점없이 쓸때 사용
 --(10) 고객의 이름과 고객별 구매액
-select c.name,sum(saleprice) from customer,oders where c.custid = o.custid
-    group by custid;
+select c.name,sum(o.saleprice) from orders o
+    join customer c on o.custid = c.custid
+    group by c.name;
 --(11) 고객의 이름과 고객이 구매한 도서 목록
+select c.name, listagg(b.bookname,', ') within group (order by b.bookname) booklist from orders o
+    join customer c on o.custid = c.custid
+    join book b on o.bookid = b.bookid
+    group by c.name;
 --(12) 도서의 가격(Book 테이블)과 판매가격(Orders 테이블)의 차이가 가장 많은 주문
+-- 정가의 차이가 제일 큰 값
+select max(abs(o.saleprice-b.price)) from orders o
+    join book b on o.bookid = b.bookid;
+-- 판매가와 정가의 차이가 6000원인 주문 찾기
+select o.orderid, o.saleprice, b.price from orders o
+    join book b on o.bookid = b.bookid
+    where abs(o.saleprice - b.price) = 6000;
+-- 위 두개의 SQL을 결합
+select o.orderid, o.saleprice, b.price from orders o
+    join book b on o.bookid = b.bookid
+    where abs(o.saleprice - b.price) = ( select max(abs(o.saleprice-b.price)) from orders o
+    join book b on o.bookid = b.bookid);
 --(13) 도서의 판매액 평균보다 자신의 구매액 평균이 더 높은 고객의 이름
+select avg(saleprice) from orders;
+select c.name, avg(o.saleprice) from orders o
+    join customer c on o.custid = c.custid
+    group by c.name
+    having avg(o.saleprice) > (select avg(saleprice) from orders);

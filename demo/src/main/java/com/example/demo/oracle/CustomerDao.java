@@ -80,4 +80,123 @@ public class CustomerDao {
 		
 		return list;
 	}
+	
+	public List<Customer> getCustomerByAddress(String  addr) {
+		Connection conn = myConnection();
+		String sql ="select * from customer where address like ?";
+		List<Customer> list = new ArrayList<>();
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+ addr + "%");
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+//				int custId =rs.getInt(1);
+//				String name = rs.getNString(2);
+//				addr = rs.getNString(3);
+//				String phone = rs.getNString(4);
+//				Customer c = new Customer(custId,name, addr, phone);
+				Customer c = new Customer(rs.getInt(1),rs.getString(2),
+										  rs.getString(3),rs.getString(4));
+				list.add(c);
+			}
+			rs.close(); conn.close(); pstmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public List<Customer> getCustomerListByFieldAndQuery(String field, String query){
+	Connection conn = myConnection();
+	String sql ="select * from customer where "+ field + " like?";
+	List<Customer> list = new ArrayList<>();
+	try {
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, "%" + query + "%");
+		ResultSet rs = pstmt.executeQuery();
+		while (rs.next()) {
+			Customer c = new Customer(rs.getInt(1),rs.getString(2),
+									  rs.getString(3),rs.getString(4));
+			list.add(c);
+		}
+		rs.close(); conn.close(); pstmt.close();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return list;
+}
+//	public List<Customer> getCustomerByName(String name){
+//		Connection conn = myConnection();
+//		String sql ="select * from customer where name like ?";
+//		List<Customer> list = new ArrayList<>();
+//		try {
+//			PreparedStatement pstmt = conn.prepareStatement(sql);
+//			pstmt.setString(1, "%" + name + "%");
+//			ResultSet rs = pstmt.executeQuery();
+//			while (rs.next()) {
+////				int custId =rs.getInt(1);
+////				String name = rs.getNString(2);
+////				addr = rs.getNString(3);
+////				String phone = rs.getNString(4);
+////				Customer c = new Customer(custId,name, addr, phone);
+//				Customer c = new Customer(rs.getInt(1),rs.getNString(2),
+//										  rs.getNString(3),rs.getNString(4));
+//				list.add(c);
+//			}
+//			rs.close(); conn.close(); pstmt.close();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return list;
+//	}
+	public void insertCustomer(Customer c) {
+		Connection conn = myConnection();
+		String sql = "update customer set name=?, address=?, phone=?, where custid=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, c.getName());
+			pstmt.setString(2, c.getAddr());
+			pstmt.setString(3, c.getPhone());
+			pstmt.setInt(4, c.getCustId());
+			pstmt.executeUpdate();
+			
+			pstmt.close(); conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void updateCustomer(Customer c) {
+		Connection conn = myConnection();
+		String sql = "update customer set name=?, address=?, phone=?, where custid=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, c.getName());
+			pstmt.setString(2, c.getAddr());
+			pstmt.setString(3, c.getPhone());
+			pstmt.setInt(4, c.getCustId());
+			pstmt.executeUpdate();
+			
+			pstmt.close(); conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+		
+	public void deleteCustomer(int custId) {
+		Connection conn = myConnection();
+		String sql = "delete from customer where custid=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, custId);
+			pstmt.executeLargeUpdate();
+			
+			pstmt.close(); conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+		
 }

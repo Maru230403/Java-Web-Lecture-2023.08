@@ -6,6 +6,9 @@ public class Book {
 	private String publisher;
 	private int price;
 	
+	public Book() {				// 기본생성자도 만들어 놓음(어떻게 될지 모르기떄문에)
+	}
+
 	public Book(int bookId, String bookName, String publisher, int price) {
 		this.bookId = bookId;
 		this.bookName = bookName;
