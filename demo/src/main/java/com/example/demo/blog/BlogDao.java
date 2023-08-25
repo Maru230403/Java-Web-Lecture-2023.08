@@ -37,7 +37,7 @@ public class BlogDao {
 					String penName = rs.getString(2);
 					String title = rs.getString(3);
 					String content = rs.getString(4);
-					String modTime = rs.getString(5);
+					String modTime = rs.getString(5); 
 					int viewCount = rs.getInt(6);
 					int isDeleted = rs.getInt(7);
 					blog = new Blog(bid, penName, title, content,
@@ -115,7 +115,7 @@ public class BlogDao {
 	}
 		
 		public void deleteBlog(int bid) {
-			String sql ="update blog set isDeleted=1 where bid=?";
+			String sql ="update blog set isDeleted=1 where bid=?"; // isDeleted=1 : 삭제를 할것이냐 질문에 대답이 1이면 삭제 0이면 취소
 			try {
 				Connection conn = DriverManager.getConnection(url, username, password);
 				PreparedStatement pstmt = conn.prepareStatement(sql);
