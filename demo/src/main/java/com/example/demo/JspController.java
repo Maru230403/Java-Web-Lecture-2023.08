@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
-@Controller
-@RequestMapping("/jsp")
+//@Controller
+//@RequestMapping("/jsp")
 public class JspController {
 	
 	@GetMapping("/sample")
