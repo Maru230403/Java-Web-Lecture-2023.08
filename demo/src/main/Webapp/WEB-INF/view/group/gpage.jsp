@@ -32,7 +32,7 @@
 		        <h3>
 		        	<strong>그룹목록</strong>
 		        	<span style="font-size:0.6em;">
-				        		<a href="/demo/blog/write">
+				        		<a href="/demo/group/profile">
 				        			<i class="ms-5 fa-regular fa-file-lines"></i> 그룹추가
 				        		</a>
 				    </span>

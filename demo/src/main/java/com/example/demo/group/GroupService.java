@@ -6,11 +6,12 @@ public interface GroupService {
 	
 	Group getGroup(int gid);
 	
-	List<Group> getGroupgpage(String field, String query);
+	List<Group> getGroupList(String field, String query);
 	
 	void insertGroup(Group group);
 	
 	void updateGroup(Group group);
 	
 	void deleteGroup(int gid);
+
 }

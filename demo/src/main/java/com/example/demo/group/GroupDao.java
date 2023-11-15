@@ -4,9 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.example.demo.blog.Blog;
 
 @Component
 public class GroupDao {
@@ -41,6 +46,7 @@ public class GroupDao {
 		}
 		return group;
 	}
+	
 	public void insertGroup(Group group) {
 		String sql = " insert into group(profile1) values (?, ?, ?)";
 		try {
@@ -54,6 +60,34 @@ public class GroupDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public List<Group> getGroupList(String field, String query) {
+		String sql = "select * from group where " + field + " like ? and isDeleted=0 ";
+		List<Group> list = new ArrayList<>();
+		try {
+			Connection conn = DriverManager.getConnection(url, username, password);
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + query + "%");
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int gid = rs.getInt(1);
+				String ggname= rs.getString(2);
+				String profile1= rs.getString(3);
+				String name= rs.getString(4);
+				int age= rs.getInt(5);
+				String position= rs.getString(6);
+				String nationality= rs.getString(7);
+				String entertainment= rs.getString(8);
+				Group group = new Group(gid, ggname, profile1, name, age, position, nationality, entertainment);
+				
+				list.add(group);
+		}
+			rs.close(); pstmt.close(); conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 		public void updateGroup(Group group) {
 			String sql = "update group set ggname=?, entertainment=?, profile1=? where gid=?";
@@ -70,8 +104,16 @@ public class GroupDao {
 				e.printStackTrace();
 			}
 		}
-//		public void deleteGroup(int Gid) {
-//			String sql =
-//	}
-	
+		public void deleteGroup(int Gid) {
+			String sql = "update group set isDeleted=1 where gid=?";
+			try {
+				Connection conn = DriverManager.getConnection(url, username, password);
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, Gid);
+				pstmt.executeUpdate();
+				pstmt.close(); conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
 }

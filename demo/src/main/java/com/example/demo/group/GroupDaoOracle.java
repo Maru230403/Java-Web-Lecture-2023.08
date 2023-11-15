@@ -14,14 +14,15 @@ public interface GroupDaoOracle {
 		Group getGroup(int gid);
 		
 		@Select("select * from blog where ${field} like #{query} and isDeleted=0")
-		List<Group> getGroupgpage(String field, String query);
+		List<Group> getGroupList(String field, String query);
 		
-		@Insert("insert into group(gid, entertainment, profile1) values (#{gid}, #{entertainment}, #{profile1})")
+		@Insert("insert into group(gid, entertainment, profile1) values (#{gid}, #{entertainment, jdbcType=VARCHAR}, #{profile1, jdbcType=VARCHAR})")
 		void insertGroup(Group group);
 		
-		@Update("update group set ggname=#{ggname}, entertainment=#{entertainment}, profile1=#{profile1, jdbcType=VARCHAR} where gid=?")
+		@Update("update group set ggname=#{ggname}, entertainment=#{entertainment, jdbcType=VARCHAR}, profile1=#{profile1, jdbcType=VARCHAR} where gid=?")
 		void updateGroup(Group group);
 		
 		@Update("update blog set isDeleted=1 where gid={gid}")
 		void deleteGroup(int gid);
+
 }
