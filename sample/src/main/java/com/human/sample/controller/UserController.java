@@ -23,21 +23,37 @@ import com.human.sample.service.UserService;
 public class UserController {
 	@Autowired private UserService userService;
 	
-	   @GetMapping("/list/{page}")
-	   public String list(@PathVariable int page, HttpSession session,Model model) {
-	      List<User> list = userService.getUserList(page);
-	      model.addAttribute("userList", list);
-	      
-	      int totalUsers = userService.getUserCount();
-	      int totalPages = (int) Math.ceil((double)totalUsers / userService.RECORDS_PER_PAGE);
-	      List<String> pageList = new ArrayList<>();
-	      for (int i =1; i<=totalPages; i++)
-	         pageList.add(String.valueOf(i));
-	      model.addAttribute("pageList", pageList);
-	      session.setAttribute("currentUserPage", page);
-	   
-	      return "user/list";
+	@GetMapping("/update/{uid}")
+	public String updateForm(@PathVariable String uid) {
+		return "";
+	}
+	
+	@PostMapping("/update/{uid}")
+	public String updateProc(@PathVariable String uid) {
+		return "";
+	}
+	
+	@GetMapping("/delete/{uid}")
+	   public String delete(@PathVariable String uid) {
+		System.out.println(uid);
+	      return "redirect:/home";
 	   }
+	
+   @GetMapping("/list/{page}")
+   public String list(@PathVariable int page, HttpSession session,Model model) {
+      List<User> list = userService.getUserList(page);
+      model.addAttribute("userList", list);
+      
+      int totalUsers = userService.getUserCount();
+      int totalPages = (int) Math.ceil((double)totalUsers / userService.RECORDS_PER_PAGE);
+      List<String> pageList = new ArrayList<>();
+      for (int i =1; i<=totalPages; i++)
+         pageList.add(String.valueOf(i));
+      model.addAttribute("pageList", pageList);
+      session.setAttribute("currentUserPage", page);
+   
+      return "user/list";
+   }
 	
 	@GetMapping("/login")
 	public String loginForm() {
