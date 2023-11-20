@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.Session;
+import org.json.simple.JSONObject;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.human.sample.entity.User;
 import com.human.sample.service.UserService;
@@ -23,21 +24,45 @@ import com.human.sample.service.UserService;
 public class UserController {
 	@Autowired private UserService userService;
 	
+	@ResponseBody
 	@GetMapping("/update/{uid}")
 	public String updateForm(@PathVariable String uid) {
-		return "";
+		User user = userService.getUser(uid);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("uid", user.getUid());
+		jsonObject.put("uname", user.getUname());
+		jsonObject.put("email", user.getEmail());
+		return jsonObject.toJSONString();
 	}
 	
-	@PostMapping("/update/{uid}")
-	public String updateProc(@PathVariable String uid) {
-		return "";
+	@PostMapping("/update")
+	public String updateProc(String pwd, String pwd2, String uname, 
+			 				String email, HttpSession session, Model model) {
+			String uid = (String) session.getAttribute("sessUid");
+			User user = userService.getUser(uid);
+		// System.out.println("pwd=" + pwd + ", pwd2=" + pwd2);
+		if (pwd.length() >= 4 && pwd.equals(pwd2)) {
+			String hashedPwd = BCrypt.hashpw(pwd, BCrypt.gensalt()); // hashedPwd로 비밀번호 바꿔치기(?)
+			user.setPwd(hashedPwd);
+		} else if (pwd.equals("") && pwd2.equals(""))	{
+			;				// 아무일도 하지 않는다
+		} else { 			
+			model.addAttribute("msg", "패스워드를 다시 입력하고 수정하세요.");		// 경고 메세지를 보내준다
+			model.addAttribute("url", "/sample/user/list/" + session.getAttribute("currentUserPage"));
+				return "common/alertMsg";
+		}
+		user.setUname(uname);
+		user.setEmail(email);
+		userService.updateUser(user);
+		
+		return "redirect:/user/list/" + session.getAttribute("currentUserPage");
 	}
 	
 	@GetMapping("/delete/{uid}")
-	   public String delete(@PathVariable String uid) {
-		System.out.println(uid);
-	      return "redirect:/home";
-	   }
+   public String delete(@PathVariable String uid, HttpSession session) {
+		userService.deleteUser(uid);
+		return "redirect:/user/list/" + session.getAttribute("currentUserPage");
+   }
 	
    @GetMapping("/list/{page}")
    public String list(@PathVariable int page, HttpSession session,Model model) {
@@ -51,7 +76,8 @@ public class UserController {
          pageList.add(String.valueOf(i));
       model.addAttribute("pageList", pageList);
       session.setAttribute("currentUserPage", page);
-   
+      model.addAttribute("menu","user");
+      
       return "user/list";
    }
 	
