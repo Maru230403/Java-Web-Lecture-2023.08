@@ -9,27 +9,41 @@
 
     <h2>이용권 구매</h2>
 
-    <form action="/purchase" method="post">
+    <form action="/purchase" method="post" id="purchaseForm">
         <label>
-            <input type="radio" name="ticketType" value="standard"> 표준 이용권 (￦10,000)
-        </label>
-        <br>
-        <label>
-            <input type="radio" name="ticketType" value="premium"> 프리미엄 이용권 (￦30,000)
-        </label>
-        <br>
-
-        <!-- 필요한 경우 더 많은 옵션을 추가할 수 있습니다. -->
-        <!-- 예: 수량 선택 -->
-        <label>
-            수량:
-            <select name="quantity">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
+            이용권 선택:
+            <select name="ticketType" id="ticketType" onchange="showOptions()">
+                <option value="daily">일일권</option>
+                <option value="regular">정기권</option>
             </select>
         </label>
         <br>
+
+        <div id="dailyOptions" style="display: block;">
+            <label>
+                일일권
+                <select name="dailyQuantity">
+                    <option value="1">1시간 이용권</option>
+                    <option value="2">2시간 이용권</option>
+                </select>
+            </label>
+        </div>
+
+        <div id="regularOptions" style="display: none;">
+            <label>
+                정기권
+                <select name="regularQuantity">
+                    <option value="7_1">7일 1시간 이용권</option>
+                    <option value="7_2">7일 2시간 이용권</option>
+                    <option value="30_1">30일 1시간 이용권</option>
+                    <option value="30_2">30일 2시간 이용권</option>
+                    <option value="180_1">180일 1시간 이용권</option>
+                    <option value="180_2">180일 2시간 이용권</option>
+                    <option value="365_1">365일 1시간 이용권</option>
+                    <option value="365_2">365일 2시간 이용권</option>
+                </select>
+            </label>
+        </div>
 
         <!-- 예: 결제 세부 정보 -->
         <label>
@@ -41,6 +55,22 @@
         <br>
         <button type="submit">선택한 이용권 결제</button>
     </form>
+
+    <script>
+        function showOptions() {
+            var ticketType = document.getElementById('ticketType').value;
+            var dailyOptions = document.getElementById('dailyOptions');
+            var regularOptions = document.getElementById('regularOptions');
+
+            if (ticketType === 'daily') {
+                dailyOptions.style.display = 'block';
+                regularOptions.style.display = 'none';
+            } else if (ticketType === 'regular') {
+                dailyOptions.style.display = 'none';
+                regularOptions.style.display = 'block';
+            }
+        }
+    </script>
 
 </body>
 </html>
