@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isErrorPage="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isErrorPage="true"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,8 +20,8 @@
     		<div class="col-3"></div>
     		<div class="col-6">
     			<h3>
-	    			<strong>에러 페이지</strong>
-    			</h3>
+    				<strong>에러 페이지</strong>
+   				</h3>
     			<hr>
 				<h2>요청한 페이지는 존재하지 않습니다.</h2>
 				<h3>${code}</h3>

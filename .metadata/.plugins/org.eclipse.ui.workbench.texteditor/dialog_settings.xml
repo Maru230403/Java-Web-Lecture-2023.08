@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="mu"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="Mu"/>
+			<item value="artifactId"/>
+			<item value="org.springframework.boot"/>
+			<item value="mysql"/>
+			<item value="address"/>
+			<item value="kako"/>
+			<item value="kaka"/>
+			<item value="jdbc"/>
+			<item value="jdbcType"/>
+			<item value="ㅓ유"/>
+			<item value="entertainment"/>
+			<item value="entert"/>
+			<item value="enter"/>
+			<item value="profile"/>
+			<item value="bDao"/>
+		</list>
+		<list key="replacehistory">
+			<item value="place"/>
+			<item value="profile1"/>
+			<item value="blogService"/>
+			<item value="port"/>
+			<item value="database"/>
+			<item value="password"/>
+			<item value="user"/>
+			<item value="member"/>
+			<item value="mem0"/>
+			<item value="List"/>
+			<item value="memberArray[0]"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="54"/>
+		<item key="DIALOG_Y_ORIGIN" value="82"/>
+		<item key="DIALOG_WIDTH" value="322"/>
+		<item key="DIALOG_HEIGHT" value="383"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+</section>

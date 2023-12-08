@@ -12,15 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ErrorHandlingController implements ErrorController{
+public class ErrorHandlingController implements ErrorController {
 	private final String ERROR_404_PAGE_PATH = "error/error404";
 	private final String ERROR_500_PAGE_PATH = "error/error500";
 	private final String ERROR_ETC_PAGE_PATH = "error/error";
 	
-	
 	@GetMapping("/error")
-	public String handleError(HttpServletRequest req, Model model)	{
-		// 에러 코드 
+	public String handleError(HttpServletRequest req, Model model) {
+		// 에러 코드
 		Object status = req.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		// 에러 코드에 대한 상태 정보
 		int statusCode = Integer.valueOf(status.toString());
