@@ -7,11 +7,12 @@ import com.human.sample.entity.User;
 public interface UserService {
 	public static final int CORRECT_LOGIN = 0;
 	public static final int WRONG_PASSWORD = 1;
-	public static final int UID_NOT_EXIST = 2;		// 로그인할때 나오는 경우의수를 상수로 지정 (인터페이스)로 만듦
-	public static final int RECORDS_PER_PAGE =5;	// 한 페이지당 10개 레코드를 보여줌
+	public static final int UID_NOT_EXIST = 2;
+	public static final int RECORDS_PER_PAGE = 5; // 한 페이지당 10개 레코드를 보여줌
 	
-	int getUserCount();		// pagination을 위해 사용됨
-	
+
+	int getUserCount();		// pagination을 위해 사용됨 ex) 97명이있으면 한페이지당 10명씩 했을때 10페이지로 하게끔 만드는것
+		
 	User getUser(String uid);
 	
 	List<User> getUserList(int page);
@@ -23,5 +24,4 @@ public interface UserService {
 	void deleteUser(String uid);
 	
 	int login(String uid, String pwd);
-	
 }

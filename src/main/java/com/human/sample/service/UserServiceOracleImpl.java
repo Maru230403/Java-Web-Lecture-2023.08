@@ -9,11 +9,10 @@ import org.springframework.stereotype.Service;
 import com.human.sample.db.UserDaoOracle;
 import com.human.sample.entity.User;
 
-
 @Service
-public class UserServiceOracleImpl implements UserService {
-	@Autowired private UserDaoOracle userDao;	// UserDaoOracle은 오라클로 만들었으므로 만약 MySQL로 만들면 다시 이름을 MySQL로 바꾸면 됨
-	
+public class UserServiceOracleImpl implements UserService{
+	@Autowired private UserDaoOracle userDao;
+
 	@Override
 	public int getUserCount() {
 		int count = userDao.getUserCount();
@@ -37,11 +36,13 @@ public class UserServiceOracleImpl implements UserService {
 	@Override
 	public void insertUser(User user) {
 		userDao.insertUser(user);
+		
 	}
 
 	@Override
 	public void updateUser(User user) {
-		userDao.updateUser(user);	
+		userDao.updateUser(user);
+		
 	}
 
 	@Override
@@ -52,12 +53,12 @@ public class UserServiceOracleImpl implements UserService {
 	@Override
 	public int login(String uid, String pwd) {
 		User user = userDao.getUser(uid);
-		if (user == null)
+		if (user == null) 		// UID_NOT_EXIST
 			return UID_NOT_EXIST;
-		if (BCrypt.checkpw(pwd, user.getPwd()))			// user.getPwd() 데이터에 있는 pwd 정보를 가져와 일치하는 체크
+		if (BCrypt.checkpw(pwd, user.getPwd()))
 			return CORRECT_LOGIN;
 		else 
-		return WRONG_PASSWORD;
+			return WRONG_PASSWORD;
 	}
 
 }
