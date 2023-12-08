@@ -22,12 +22,12 @@
     		<div class="col-4"></div>
     		<div class="col-4">
     			<h3>
-    				<strong>로그인</strong>
-    				<span style="font-size: 0.6em;">
-    					<a href="/sample/user/register" class="ms-5">
-    						<i class="fa-solid fa-user-plus"></i> 사용자 등록</a>
-    				</span>
-   				</h3>
+	    			<strong>로그인</strong>
+	    			<span style="font-size: 0.6em;">
+	    				<a href="/sample/user/register" class="ms-5">
+	    					<i class="fa-solid fa-user-plus"></i>사용자 등록</a>
+	    			</span>
+    			</h3>
     			<hr>
     			<form action="/sample/user/login" method="post">
     				<table class="table table-borderless">
