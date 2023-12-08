@@ -1,0 +1,30 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Kakao Map Example</title>
+    <!-- 카카오 맵 API 스크립트 추가 -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e5ac160ce8ea0aaa1297d957f7a86b07"></script>
+</head>
+<body>
+
+<!-- 지도를 표시할 div 요소 -->
+<div id="map" style="width:100%;height:400px;"></div>
+
+<!-- 카카오 맵 초기화 스크립트 -->
+<script>
+    // API 키 설정
+    kakao.maps.load(() => {
+        // 지도 생성
+        const mapContainer = document.getElementById('map');
+        const options = {
+            center: new kakao.maps.LatLng(37.5665, 126.9780), // 서울의 중심 좌표
+            level: 10 // 지도 확대 레벨
+        };
+        const map = new kakao.maps.Map(mapContainer, options);
+    });
+</script>
+
+</body>
+</html>
