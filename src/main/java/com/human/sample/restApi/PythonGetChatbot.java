@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class PythonGetChatbot {
-
-	public static void main(String[] args) throws Exception {
-		String userInput = "오늘 발표를 잘해서 기분이 너무 좋아요";
+	
+	public static void main(String[] args) throws Exception{
+		String userInput = "오늘 발표를 잘해서 기분이 너무 좋아요.";
 		userInput = URLEncoder.encode(userInput, "utf-8");
 		String apiUrl = "http://localhost:5000/chatbot/counsel_rest?userInput=" + userInput;
 		
@@ -27,6 +27,5 @@ public class PythonGetChatbot {
 		String chatbot = (String) obj.get("chatbot");
 		System.out.println(user);
 		System.out.println(chatbot);
-	}
-
+		}
 }
