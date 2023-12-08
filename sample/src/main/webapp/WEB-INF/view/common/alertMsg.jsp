@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html>
@@ -7,8 +7,9 @@
 	<title>Alert Message</title>
 </head>
 <body>
-	<script>
-		let msg = '${msg}';
+	<script> 	
+	<%-- ${  } : expression language --%>
+		let msg = '${msg}'; 
 		let url = '${url}';
 		alert(msg);
 		location.href = url;
