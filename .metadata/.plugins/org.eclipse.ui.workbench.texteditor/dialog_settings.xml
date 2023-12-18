@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="mu"/>
+		<item key="selection" value=""/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="ojdbc10"/>
+			<item value="20"/>
+			<item value="15"/>
+			<item value="10"/>
+			<item value="25"/>
 			<item value="Mu"/>
 			<item value="artifactId"/>
 			<item value="org.springframework.boot"/>
@@ -18,13 +23,11 @@
 			<item value="jdbc"/>
 			<item value="jdbcType"/>
 			<item value="ㅓ유"/>
-			<item value="entertainment"/>
-			<item value="entert"/>
-			<item value="enter"/>
-			<item value="profile"/>
-			<item value="bDao"/>
 		</list>
 		<list key="replacehistory">
+			<item value="10"/>
+			<item value="20"/>
+			<item value="15"/>
 			<item value="place"/>
 			<item value="profile1"/>
 			<item value="blogService"/>

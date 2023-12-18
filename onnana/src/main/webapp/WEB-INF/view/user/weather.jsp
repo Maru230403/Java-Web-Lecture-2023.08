@@ -95,7 +95,7 @@
        .Express {
        z-index: 999; /* 이미지 위에 텍스트*/
        }
-       
+      
        div {
             display: flex;
             flex-wrap: wrap;
@@ -109,27 +109,30 @@
         }
 
         .chart-container {
-            position: relative;
+         display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          justify-content: center;
+          flex-direction: row; /* 기존에는 column이었으므로 row로 변경 */
+}
         }
 
         .chart-image {
-            position: absolute;
-            top: 70%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 20%;
-            max-height: 20%;
+            max-width: 100%;
+          max-height: 100%;
         }
 
         .chart-text {
             position: absolute;
-            top: 110%;
+            top: 80%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 18px;
+            font-size: 12px;
         }
-       
+      
     </style>
+    <!-- 새로 추가한 차트 관련 코드 -->
+   	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
      document.addEventListener('DOMContentLoaded', function() {
          const buttons = document.querySelectorAll('.weather-button');
@@ -143,32 +146,29 @@
              });
          });
      });
-     fetch('http://localhost:5000/test')
-     .then(response => response.json())
-     .then(data => {
-         // 콘솔에 데이터 출력
-         console.log(data);
-
-         var jsonData = data;
-
+     window.onload = function() {
+         let jsonDataString = '${data}';
+         let jsonData = JSON.parse(jsonDataString);
+         console.log(jsonData);
+     
          // 이미지 클릭 시의 동작을 처리하는 함수
          function handleImageClick(index) {
              var clickedData = jsonData[index];
              var description = clickedData["안내멘트"];
              alert(description);
          }
-
+     
          for (var i = 0; i < jsonData.length; i++) {
              var labels = [jsonData[i]["생활지수"], ""];
-
+     
              var dataset = {
                  data: [jsonData[i]["그래프 값"], jsonData[i]["그래프 최댓값"] - jsonData[i]["그래프 값"]],
                  backgroundColor: ['#87CEEB', '#808080'],
              };
-
+     
              var chartId = 'myChart' + i;
              var ctx = document.getElementById(chartId).getContext('2d');
-
+     
              // 차트 생성
              var myChart = new Chart(ctx, {
                  type: 'doughnut',
@@ -185,37 +185,34 @@
                      },
                  },
              });
-
+     
              // 이미지 URL 가져오기
              var imageUrl = jsonData[i]["이미지"];
-
+     
              // 이미지 요소 생성
              var imgElement = new Image();
              imgElement.src = imageUrl;
              imgElement.classList.add('chart-image');
-
+     
              // 이미지를 Canvas 부모에 추가
              var chartContainer = document.getElementsByClassName('chart-container')[i];
              chartContainer.appendChild(imgElement);
-
+     
              // 이미지 클릭 이벤트 처리
              imgElement.addEventListener('click', (function (index) {
                  return function () {
                      handleImageClick(index);
                  };
              })(i));
-
+     
              // 생활지수 텍스트 추가
              var textElement = document.getElementById('text' + i);
              textElement.textContent = jsonData[i]["생활지수"] + jsonData[i]["그래프 값"];
          }
-     })
-     .catch(error => console.error('데이터 가져오는 중 오류 발생:', error));
+     };
 
     
-      </script>
-      <!-- 새로 추가한 차트 관련 코드 -->
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </script>
 </head>
 <body>
 <%@ include file="../common/top.jspf" %>
@@ -479,38 +476,6 @@
             <button id="제주" class="weather-button" data-nx="53" data-ny="38" data-name="애월읍" style="top: 802px;left: 297px;"> </button>
             <button id="서귀포" class="weather-button" data-nx="52" data-ny="33" data-name="강정동" style="top: 829px;left: 297px;"> </button>
             
-            <div class="chart-container">
-	            <canvas id="myChart0" width="200" height="200"></canvas>
-	            <div class="chart-text" id="text0"></div>
-	        </div>
-	        <div class="chart-container">
-	            <canvas id="myChart1" width="200" height="200"></canvas>
-	            <div class="chart-text" id="text1"></div>
-	        </div>
-	        <div class="chart-container">
-	            <canvas id="myChart2" width="200" height="200"></canvas>
-	            <div class="chart-text" id="text2"></div>
-	        </div>
-	        <div class="chart-container">
-	            <canvas id="myChart3" width="200" height="200"></canvas>
-	            <div class="chart-text" id="text3"></div>
-	        </div>
-	        <div class="chart-container">
-	            <canvas id="myChart4" width="200" height="200"></canvas>
-	            <div class="chart-text" id="text4"></div>
-	        </div>
-	        <div class="chart-container">
-	            <canvas id="myChart5" width="200" height="200"></canvas>
-	            <div class="chart-text" id="text5"></div>
-	        </div>
-	        <div class="chart-container">
-	            <canvas id="myChart6" width="200" height="200"></canvas>
-	            <div class="chart-text" id="text6"></div>
-	        </div>
-	        <div class="chart-container">
-	            <canvas id="myChart7" width="200" height="200"></canvas>
-	            <div class="chart-text" id="text7"></div>
-	        </div>
             <!-- 나머지 버튼들도 동일한 방식으로 클래스와 데이터 속성을 설정합니다. -->
             <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
             <script>
@@ -625,6 +590,39 @@
 		              </div>
 	          </div>
           </div>
+          <div class="chart-container">
+               <canvas id="myChart0" width="100" height="100"></canvas>
+               <div class="chart-text" id="text0"></div>
+           </div>
+           <div class="chart-container">
+               <canvas id="myChart1" width="100" height="100"></canvas>
+               <div class="chart-text" id="text1"></div>
+           </div>
+           <div class="chart-container">
+               <canvas id="myChart2" width="100" height="100"></canvas>
+               <div class="chart-text" id="text2"></div>
+           </div>
+           <div class="chart-container">
+               <canvas id="myChart3" width="100" height="100"></canvas>
+               <div class="chart-text" id="text3"></div>
+           </div>
+           <div class="chart-container">
+               <canvas id="myChart4" width="100" height="100"></canvas>
+               <div class="chart-text" id="text4"></div>
+           </div>
+           <div class="chart-container">
+               <canvas id="myChart5" width="100" height="100"></canvas>
+               <div class="chart-text" id="text5"></div>
+           </div>
+           <div class="chart-container">
+               <canvas id="myChart6" width="100" height="100"></canvas>
+               <div class="chart-text" id="text6"></div>
+           </div>
+           <div class="chart-container">
+               <canvas id="myChart7" width="100" height="100"></canvas>
+               <div class="chart-text" id="text7"></div>
+           </div>
+          
           <div class="row"><div class="container"></div></div>
           <div class="row">
           	<div class="Express" style="margin-top:500px; font-size:12px; text-align:right; margin-right:-80px;">
