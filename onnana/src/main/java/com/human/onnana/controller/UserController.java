@@ -256,14 +256,10 @@ public class UserController {
         return result.toString();
     }
 	
-	@ResponseBody
-	@GetMapping("/test") 
-	public String counselProc() throws Exception {
-		URI uri = new URI("http://localhost:5000/test");
-		RestTemplate rest = new RestTemplate();
-		ResponseEntity<String> response = rest.getForEntity(uri, String.class);
-		return response.getBody();
-	} 
+	@GetMapping("/showChart")
+    public String showChart() {
+        return "user/graph"; // yourfile.html 파일의 이름
+    }
 
 	
 	   @GetMapping("/dust")
