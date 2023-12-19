@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.human.sample.service.UserService"/>
-    <fullyQualifiedTypeName name="org.mindrot.jbcrypt.BCrypt"/>
-    <fullyQualifiedTypeName name="org.apache.ibatis.annotations.Update"/>
-    <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
-    <fullyQualifiedTypeName name="javax.servlet.http.HttpFilter"/>
-    <fullyQualifiedTypeName name="javax.servlet.FilterRegistration"/>
     <fullyQualifiedTypeName name="java.nio.file.DirectoryStream.Filter"/>
     <fullyQualifiedTypeName name="javax.servlet.Filter"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
@@ -50,7 +44,6 @@
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
-    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="com.human.onnana.dao.WeatherInfoDao"/>
     <fullyQualifiedTypeName name="com.human.onnana.entity.WeatherInfo"/>
     <fullyQualifiedTypeName name="java.net.URI"/>
@@ -60,4 +53,11 @@
     <fullyQualifiedTypeName name="org.json.simple.parser.JSONParser"/>
     <fullyQualifiedTypeName name="org.json.simple.JSONObject"/>
     <fullyQualifiedTypeName name="org.json.simple.JSONArray"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.chrome.ChromeOptions"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.chrome.ChromeDriver"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.WebElement"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.By"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="com.human.onnana.crawl.Crawler"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.WebDriver"/>
 </qualifiedTypeNameHistroy>
