@@ -227,18 +227,6 @@ public class AsideUtil {
        }
        return address;
    }
-   public Integer getTodayAttendance(String filePath, Object attendance) {
-	    // 현재 날짜를 기준으로 출석일을 가져오는 로직
-	    // ...
-
-	    // 출석일이 null인 경우 0으로 초기화
-	    if (attendance == null) {
-	        attendance = 0;
-	    }
-
-	    return (Integer) attendance;
-	}
-
 
 
    

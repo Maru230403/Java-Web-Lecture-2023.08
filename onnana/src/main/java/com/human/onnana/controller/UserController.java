@@ -126,20 +126,39 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@PostMapping("/increaseAttendance/{uid}")
-    @ResponseBody
-    public String increaseAttendance(@PathVariable String uid) {
-        User user = userService.getUser(uid);
+	@PostMapping("/login")
+	public String loginProc(String uid, String pwd, HttpSession session, Model model) {
+		int result = userService.login(uid, pwd);
+		if (result == userService.CORRECT_LOGIN) {
+			session.setAttribute("sessUid", uid);
+			User user = userService.getUser(uid);
+			session.setAttribute("sessUname", user.getUname());
+			session.setAttribute("sessEmail", user.getEmail());
+			
+			// 게시판 글 전체 카운트
+			session.setAttribute("sessAllId", schedService.getCount());
+			// 게시판 글 유저 카운트
+			session.setAttribute("sessId", schedService.getUserCount(uid));
+						
+			// 탄소배출감소량 전체 유저 카운트
+			session.setAttribute("sessAllCarbonId", schedService.getCarbonCount());
+			// 탄소배출감소량 한 유저 카운트
+			session.setAttribute("sessCarbonId", schedService.getCarbonUserCount(uid));
+			
 
-        if (user != null) {
-            int currentAttendance = user.getAttendance();
-            user.setAttendance(currentAttendance + 1);
-            userService.updateUser(user);
-            return "Attendance increased for user " + uid + ". New attendance count: " + user.getAttendance();
-        } else {
-            return "User not found with UID: " + uid;
-        }
-    }
+			// 환영 메세지
+			// 로그인 입력 잘못해도, home으로 바로 이동
+			model.addAttribute("msg", user.getUname() + "님 환영합니다.");
+			model.addAttribute("url", "/onnana/home");
+		} else if (result == userService.WRONG_PASSWORD) {
+			model.addAttribute("msg", "패스워드 입력이 잘못되었습니다.");
+			model.addAttribute("url", "/onnana/home");
+		} else {		// UID_NOT_EXIST
+			model.addAttribute("msg", "ID 입력이 잘못되었습니다.");
+			model.addAttribute("url", "/onnana/home");
+		}
+		return "common/alertMsg";
+	}
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
