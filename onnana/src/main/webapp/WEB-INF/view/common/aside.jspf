@@ -94,17 +94,17 @@
 							<td><label class="col-form-label"> PW</label></td>
 							<td><input type="password" name="pwd" class="form-control"></td>
 						</tr>
-						<tr class="float-left;">
+						<tr>
 							<td colspan="3">
 								<input type="submit" class="btn btn-success ms-5" value="로그인">
 							<!-- 	<input type="reset" class="btn btn-secondary" value="취소"> -->
 								<!-- 아이디 찾기 버튼 -->
 								<a href="/onnana/user/Idsearch">
-							        <button type="button" class="btn btn-light" ">ID 찾기</button>
+							        <button type="button" class="btn btn-light" ">ID찾기</button>
 								</a>
 						        <!-- 비밀번호 변경 버튼 -->
 								<a href="/onnana/user/Pwdchange">
-						        	<button type="button" class="btn btn-light">PW 변경 </button>
+						        	<button type="button" class="btn btn-light">PW변경</button>
 								</a>
 							</td>
 						</tr>
@@ -170,8 +170,49 @@
        }
    }
    </script>
+   
+   <!-- JavaScript 코드 -->
+<script>
+    $(document).ready(function () {
+        // 페이지 로드 시 현재 기상 및 위치 정보 가져와서 표시
+        getWeatherInfo();
 
- 
-    
+        // 날씨 정보 업데이트 버튼 클릭 시 새로고침
+        $("#weatherBtn").click(function () {
+            getWeatherInfo();
+        });
+
+        // 출석 증가 버튼 클릭 시
+        $("#increaseAttendanceBtn").on("click", function () {
+            // 서버에 출석 증가를 요청
+            increaseAttendance();
+        });
+
+        // 일정 시간 간격으로 출석 자동 증가 실행
+        setInterval(function () {
+            increaseAttendance();
+        }, 30000); // 30초마다 실행, 원하는 간격으로 조절 가능
+    });
+
+    // 출석 증가 함수
+    function increaseAttendance() {
+        $.ajax({
+            type: "POST",
+            url: "/user/increaseAttendance", // 적절한 URL로 변경
+            success: function (response) {
+                // 요청이 성공한 경우 결과를 콘솔에 출력
+                console.log(response);
+                // 여기서 필요한 추가 작업을 수행
+            },
+            error: function (error) {
+                // 요청이 실패한 경우 오류 메시지를 콘솔에 출력
+                console.error("Error: " + error.responseText);
+            }
+        });
+    }
+    }
+</script>
+   
+   
 </body>
 </html>

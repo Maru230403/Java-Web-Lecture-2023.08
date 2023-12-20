@@ -126,39 +126,20 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@PostMapping("/login")
-	public String loginProc(String uid, String pwd, HttpSession session, Model model) {
-		int result = userService.login(uid, pwd);
-		if (result == userService.CORRECT_LOGIN) {
-			session.setAttribute("sessUid", uid);
-			User user = userService.getUser(uid);
-			session.setAttribute("sessUname", user.getUname());
-			session.setAttribute("sessEmail", user.getEmail());
-			
-			// 게시판 글 전체 카운트
-			session.setAttribute("sessAllId", schedService.getCount());
-			// 게시판 글 유저 카운트
-			session.setAttribute("sessId", schedService.getUserCount(uid));
-						
-			// 탄소배출감소량 전체 유저 카운트
-			session.setAttribute("sessAllCarbonId", schedService.getCarbonCount());
-			// 탄소배출감소량 한 유저 카운트
-			session.setAttribute("sessCarbonId", schedService.getCarbonUserCount(uid));
-			
+	@PostMapping("/increaseAttendance/{uid}")
+    @ResponseBody
+    public String increaseAttendance(@PathVariable String uid) {
+        User user = userService.getUser(uid);
 
-			// 환영 메세지
-			// 로그인 입력 잘못해도, home으로 바로 이동
-			model.addAttribute("msg", user.getUname() + "님 환영합니다.");
-			model.addAttribute("url", "/onnana/home");
-		} else if (result == userService.WRONG_PASSWORD) {
-			model.addAttribute("msg", "패스워드 입력이 잘못되었습니다.");
-			model.addAttribute("url", "/onnana/home");
-		} else {		// UID_NOT_EXIST
-			model.addAttribute("msg", "ID 입력이 잘못되었습니다.");
-			model.addAttribute("url", "/onnana/home");
-		}
-		return "common/alertMsg";
-	}
+        if (user != null) {
+            int currentAttendance = user.getAttendance();
+            user.setAttendance(currentAttendance + 1);
+            userService.updateUser(user);
+            return "Attendance increased for user " + uid + ". New attendance count: " + user.getAttendance();
+        } else {
+            return "User not found with UID: " + uid;
+        }
+    }
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -311,28 +292,11 @@ public class UserController {
 		RestTemplate rest = new RestTemplate();
 		ResponseEntity<String> response = rest.getForEntity(uri, String.class);
 	      System.out.println(response.getBody());
-//	      JSONParser json = new JSONParser();
-//	      JSONArray arr = (JSONArray) json.parse(response.getBody());
-//	      List<List<String>> data = new ArrayList<>();
-//	      for (int i = 0; i < arr.size(); i++) {
-//	         JSONObject line = (JSONObject) arr.get(i);
-//	         List<String> buffer = new ArrayList<>();
-//	         buffer.add((String) line.get("이미지"));
-//	         buffer.add((String) line.get("생활지수"));
-//	         buffer.add(String.valueOf(line.get("지수")));
-//	         buffer.add((String) line.get("안내멘트"));
-//	         data.add(buffer);
-//	      }
 		model.addAttribute("data", response.getBody());
 
-//	      for (List<String> l: data) {
-//	         System.out.println(l.get(0) + ", " + l.get(1) + ", " + l.get(2) + ", " + l.get(3));
-//	      }
 	
 		return "user/weather";
    }
-	
-	
 	
 	
 	

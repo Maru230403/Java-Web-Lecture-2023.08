@@ -20,7 +20,7 @@
 		}
     </style>
     <script src="/onnana/js/calendar.js?v=2"></script>
-    <script src="/onnana/js/calcu.js" defer></script>
+    <script src="/onnana/js/calcu.js" ></script>
     
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 라이브러리 -->    
 	
@@ -110,9 +110,7 @@
         	<%@ include file="../common/aside.jspf" %>
         
         	<!-- ======================== main ======================== -->
-			<div class="col-8 mt-3 ms-1">
-            	<h3 style="color:green;"><strong>그린캠페인 캘린더</strong></h3>
-            	<hr>
+			<div class="col-8 mt-5 ms-1">
                 <div class="d-flex justify-content-between">
                     <div>${today}</div>
                     <div style="margin-left:-100px">
@@ -292,17 +290,96 @@
 	                            </td>
 	                        </tr>
 <!-- ========================================================= 탄소계산기 start ========================================================= -->
+	                         
 	                         <tr>
 	                            <td colspan="2">
-	                            	<p id="demo" style="display: none;"></p> <!-- 현재 위치를 표시할 요소 -->
-	                                <label for="place">거리에 따른 배출 감소량 계산하기</label>
-	                                <div class="input-group outer-container" style="width: 100%;">
-									    <input type="text" style="height: auto;" class="form-control" id="place" name="place" placeholder=" 도착지 주소를 입력하면 현재위치부터 계산합니다">
-									    <button id="calculateDistanceBtn"  class="btn btn-success" style="width: 80px;" onclick="searchAndCalculateDistance()">계산</button>
+	                         		<button type="button" class="btn btn-outline-success" data-bs-toggle="collapse" data-bs-target="#currentLocation">현재위치로 계산하려면 여기를 누르세요!</button>
+									<div id="currentLocation" class="collapse">
+		                            	<p id="demo" style="display: none;"></p> <!-- 현재 위치를 표시할 요소 -->
+		                                <label for="place">현재위치부터 계산하기</label>
+		                                <div class="input-group outer-container" style="width: 100%;">
+										    <input type="text" style="height: auto;" class="form-control" id="place" name="place" placeholder=" 도착지 주소를 입력하면 현재위치부터 계산합니다">
+										    <button id="calculateDistanceBtn"  class="btn btn-success" style="width: 80px;" onclick="searchAndCalculateDistance()">계산</button>
+										</div>
+			                              <p id="result"></p>  <!-- 검색된 위치의 좌표와 거리를 표시할 요소 -->
 									</div>
-		                              <p id="result"></p>  <!-- 검색된 위치의 좌표와 거리를 표시할 요소 -->
 	                            </td>
-	                        </tr>    
+	                        </tr>
+	                         <tr>
+	                            <td>
+	                                <label for="place">출발지 입력</label>
+	                            	<button type="button" class="btn btn-outline-success" onclick="addWaypoint()" id="addWaypoint">+ 경유지 추가</button>
+	                                <div class="input-group outer-container" style="width: 100%;">
+									    <input type="text" style="height: auto;" class="form-control" id="startPlace" name="startPlace" placeholder=" 출발지 주소를 입력하면 현재위치부터 계산합니다">
+									</div>
+								</td>	
+							</tr>	
+	                        <tr>
+	                            <td>
+	                                <div id="waypointFields">
+									</div>
+	                            </td>
+	                        </tr>
+	                        
+	                        <script>
+	                        var waypointCount = 0;
+
+	                        function addWaypoint() {
+	                            if (waypointCount < 30) {
+	                                
+
+                                	const waypointFields = document.getElementById('waypointFields');
+
+	                                // 새로운 경유지 입력 필드를 생성합니다.
+	                                const newWaypointField = document.createElement('div');
+	                                newWaypointField.className = 'waypointField';
+									
+	                                
+	                                
+	                                    	
+	                                	$('<label></label>')
+	                                		.attr({'for': 'waypoint'+waypointCount})
+	                                		.text('경유지 입력').appendTo('#waypointFields');
+	                                	$('<div></div>')
+	                                		.attr({'class': 'input-group outer-container', 'style':'width: 100%;', id: 'divwaypoint'+waypointCount})
+	                                		.appendTo('#waypointFields');
+	                                    
+	                                	$('<input></input>')
+	                                		.attr({'style': 'height: auto;', 'class': 'form-control waypointField', 'id': 'waypoint'+ waypointCount, 
+	                                				'name': 'waypoint', 'type':'text', 'placeholder': '경유지 주소를 입력하세요'})
+	                                		.appendTo('#divwaypoint'+waypointCount);
+	                                		
+	                                	$('<button></button>')
+	                                		.attr({'class': 'btn btn-danger', 'style':'width: 80px;', 'onclick': 'removeWaypoint(this)'})
+	                                		.text('삭제')
+	                                		.appendTo('#waypointFields');
+	                                
+	                                  	                                    
+	                                	waypointCount++;
+	                                
+	                            } else {
+	                                alert('최대 30개까지 추가할 수 있습니다.');
+	                            }
+	                        }
+
+	                        function removeWaypoint(button) {
+	                            const waypointFields = document.getElementById('waypointFields');
+	                            const fieldToRemove = button.closest('.waypointField');
+	                            waypointFields.removeChild(fieldToRemove);
+	                            waypointCount--;
+	                        }
+
+							</script>    
+	                        <tr>
+							    <td colspan="2">
+							        <label for="place">도착지 입력</label>
+							        <div class="input-group outer-container" style="width: 100%;">
+							            <input type="text" style="height: auto;" class="form-control" id="endPlace" name="endPlace" placeholder="도착지 주소를 입력하세요">
+							            <button class="btn btn-primary" style="width: 80px;" onclick="stopoverCalculateDistance()">계산</button>
+							        </div>
+							        <p id="stopoverResult"></p> <!-- 결과를 표시할 요소 -->
+							    </td>
+							</tr>
 <!-- ========================================================= 탄소계산기 end ======================================================== -->
 	                        <tr>
 	                            <td colspan="2">
@@ -329,8 +406,8 @@
 	                        
 	                        <tr>
 	                            <td colspan="2" style="text-align: right;">
-	                                <button class="btn btn-primary me-2" onclick="insert()">제출</button>
-	                                <!-- <button class="btn btn-secondary" type="reset">취소</button> -->
+	                                <button class="btn btn-success me-2" onclick="insert()">제출</button>
+	                               <!-- <button class="btn btn-secondary" type="reset">초기화</button> --> 
 	                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">종료</button>
 	                            </td>
 	                        </tr>

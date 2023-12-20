@@ -38,7 +38,7 @@
 </head>
 <body>
    <%@ include file="../common/top.jspf" %>
-   <div class="container" style="margin-top: 150px; margin-bottom: 100px;">
+   <div class="container" style="margin-top: 150px; margin-bottom: 100px; margin-left: 200px;">
    
       <div class="row">
          <%@ include file="../common/aside.jspf" %>
@@ -61,12 +61,14 @@
          </div>
          
          <!-- 내용이 나오는 곳 -->
-	    <div class="col-6">
+	    <div class="col-5">
 		    <div class="image-description" id="image-description">
 		        <h5 id="description-title" class="text-info"></h5>
 		        <p id="description-content"></p>
+	   			<p style="font-size:12px;">출처:서울특별시 대기환경정보(https://cleanair.seoul.go.kr/information/info151)</p>
 		    </div>
 		</div>
+	    <div class="col-1"></div>
       </div>
    </div>
 

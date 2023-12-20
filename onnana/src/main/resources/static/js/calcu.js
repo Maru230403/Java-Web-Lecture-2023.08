@@ -3,9 +3,9 @@
  * 		탄소거리계산기를 구현한 코드
  */
 
+
+/* ================== 현재위치 경도 위도 구하는 코드 ===================== */
 var hereLat, hereLon;
-
-
 
 function getLocation() {
   if (navigator.geolocation) {
@@ -23,6 +23,9 @@ function showPosition(position) {
 
 getLocation();
 
+
+
+/* ================== 현재위치에서부터 도착지까지의 거리계산 및 탄소계산 ===================== */
 
 function searchAndCalculateDistance() {
   var address = document.getElementById('place').value;					
@@ -104,8 +107,88 @@ function readJs() {
 }
 
 
+/* ================================= 경유지까지의 거리계산 및 탄소계산 ======================================== */
+function stopoverCalculateDistance() {
+    var headers = {
+        'Authorization': 'KakaoAK db8c17d6893ffe5d073cd03b8bfe32b5'
+    };
 
+    var startQuery = encodeURIComponent(document.getElementById('startPlace').value);
+    var endQuery = encodeURIComponent(document.getElementById('endPlace').value);
 
+    var startUrl = "https://dapi.kakao.com/v2/local/search/address.json?query=" + startQuery;
+    var endUrl = "https://dapi.kakao.com/v2/local/search/address.json?query=" + endQuery;
+
+    console.log(startQuery);
+    console.log(endQuery);
+
+    $.ajax({
+        url: startUrl,
+        headers: headers,
+        success: function (startResult) {
+            var startLat = startResult.documents[0].x;
+            var startLon = startResult.documents[0].y;
+
+            console.log(startLat);
+            console.log(startLon);
+
+            $.ajax({
+                url: endUrl,
+                headers: headers,
+                success: function (endResult) {
+                    var endLat = endResult.documents[0].x;
+                    var endLon = endResult.documents[0].y;
+
+                    console.log(endLat);
+                    console.log(endLon);
+
+                    var waypoints = '';
+                    var totalWaypoints = document.querySelectorAll('.waypoint').length;
+
+                    function getWaypointCoordinates(index) {
+                        if (index < totalWaypoints) {
+                            var waypointId = 'waypoint' + index;
+                            var waypointValue = encodeURIComponent(document.getElementById(waypointId).value);
+
+                            if (waypointValue.trim() !== '') {
+                                $.ajax({
+                                    url: "https://dapi.kakao.com/v2/local/search/address.json?query=" + waypointValue,
+                                    headers: headers,
+                                    success: function (waypointResult) {
+                                        var waypointLat = waypointResult.documents[0].x;
+                                        var waypointLon = waypointResult.documents[0].y;
+
+                                        console.log(waypointLat);
+                                        console.log(waypointLon);
+
+                                        waypoints += waypointLat + ',' + waypointLon + '|';
+
+                                        getWaypointCoordinates(index + 1);
+                                    },
+                                    error: function (error) {
+                                        console.log('에러 발생:', error);
+                                    }
+                                });
+                            } else {
+                                getWaypointCoordinates(index + 1);
+                            }
+                        } else {
+                            calculateDistanceWithWaypoints(startLat, startLon, endLat, endLon, waypoints);
+                        }
+                    }
+
+                    getWaypointCoordinates(0);
+                },
+                error: function (error) {
+                    console.log('에러 발생:', error);
+                }
+            });
+        },
+        error: function (error) {
+            console.log('에러 발생:', error);
+        }
+    });
+}
 
 
 
@@ -191,7 +274,6 @@ function readJs2() {
     let currentTitle = titleElement.value;
     titleElement.value = currentTitle.split('-')[0].trim() + '- ' + totalCarbon.toFixed(2) + 'kg 감소';
 }
-
 
 
 

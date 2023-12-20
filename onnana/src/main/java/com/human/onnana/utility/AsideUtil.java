@@ -227,6 +227,18 @@ public class AsideUtil {
        }
        return address;
    }
+   public Integer getTodayAttendance(String filePath, Object attendance) {
+	    // 현재 날짜를 기준으로 출석일을 가져오는 로직
+	    // ...
+
+	    // 출석일이 null인 경우 0으로 초기화
+	    if (attendance == null) {
+	        attendance = 0;
+	    }
+
+	    return (Integer) attendance;
+	}
+
 
 
    
@@ -234,8 +246,9 @@ public class AsideUtil {
    // ★★★ OpenWeather API ★★
    public String getWeather(String lon, String lat) {
       String apiUrl = "https://api.openweathermap.org/data/2.5/weather";
-      apiUrl += "?lat=37.5207569&lon=126.9003409&appid=7bf73c254c8083bf83a5f9b40a7146bf&units=metric";
-   
+      apiUrl += "?lat="+lon+"&lon="+lat+"&appid="+ openWeatherApiKey +"&units=metric";
+      // 현재위치 위도경도가 서로 바뀌어서 데이터가 불러와짐(2023.12.18일에는 정상으로 되었으나, 2023.12.19일 이상발견)
+      
       String weatherStr = null;
       try {
          URL url = new URL(apiUrl);
